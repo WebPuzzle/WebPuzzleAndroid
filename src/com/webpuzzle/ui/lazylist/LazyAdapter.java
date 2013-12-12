@@ -36,7 +36,12 @@ public class LazyAdapter extends BaseAdapter {
 	}
 
 	public Object getItem(int position) {
-		return position;
+		try {
+			return data.get(position);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public long getItemId(int position) {
@@ -47,29 +52,23 @@ public class LazyAdapter extends BaseAdapter {
 		View vi = convertView;
 		if (convertView == null)
 			vi = inflater.inflate(R.layout.item, null);
-
-		TextView text = (TextView) vi.findViewById(R.id.title);
-		try {
-			text.setText(((JSONObject)data.get(position)).getString("name"));
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
-		text = (TextView) vi.findViewById(R.id.description);
-		try {
-			text.setText(((JSONObject)data.get(position)).getString("description"));
-		} catch (JSONException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		JSONObject object = (JSONObject) getItem(position);
 
-		ImageView image = (ImageView) vi.findViewById(R.id.image);
-		try {
-			imageLoader.DisplayImage(((JSONObject)data.get(position)).getString("imageLink"), image);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(object != null) {
+			try {
+				TextView text = (TextView) vi.findViewById(R.id.title);
+				text.setText(object.getString("name"));
+			
+				text = (TextView) vi.findViewById(R.id.description);
+				text.setText(object.getString("description"));
+	
+				ImageView image = (ImageView) vi.findViewById(R.id.image);
+				imageLoader.DisplayImage(object.getString("imageLink"), image);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		return vi;
 	}

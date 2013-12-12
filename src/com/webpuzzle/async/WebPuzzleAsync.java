@@ -59,16 +59,4 @@ public class WebPuzzleAsync extends AsyncTask<String, Integer, String> {
 	protected void onProgressUpdate(Integer... progress) {
 
 	}
-
-	protected void onPostExecute(String result) {
-		try {
-			LazyAdapter adapter = new LazyAdapter(mContext, new JSONArray(result));
-			ListView list = (ListView) mContext.findViewById(R.id.listWc);
-			System.out.println(list);
-			list.setAdapter(adapter);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
