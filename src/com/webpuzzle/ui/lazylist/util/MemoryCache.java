@@ -1,4 +1,4 @@
-package com.webpuzzle.ui.lazylist;
+package com.webpuzzle.ui.lazylist.util;
 
 import java.util.Collections;
 import java.util.Iterator;

@@ -10,16 +10,12 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.webpuzzle.R;
-import com.webpuzzle.ui.lazylist.LazyAdapter;
 
 public class WebPuzzleAsync extends AsyncTask<String, Integer, String> {
 	private Activity mContext=null;
@@ -28,11 +24,20 @@ public class WebPuzzleAsync extends AsyncTask<String, Integer, String> {
 		this.mContext = a;
 	}
 
-	protected String doInBackground(String... urls) {
+	protected String doInBackground(String... params) {
 		StringBuilder builder = null;
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(urls[0]);
-
+		
+		String action = params[0];
+		String url = "";
+		
+		if("listing".equals(action)){
+			String world = params[1];
+			url = this.mContext.getResources().getString(R.string.services_endpoint) + String.format(this.mContext.getResources().getString(R.string.services_context_components_belongsto_aworld), world) + ".json";
+		}
+		
+		HttpGet httpGet = new HttpGet(url);
+		
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();

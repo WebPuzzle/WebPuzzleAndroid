@@ -1,4 +1,4 @@
-package com.webpuzzle.ui.lazylist;
+package com.webpuzzle.ui.lazylist.util;
 
 import java.io.File;
 import java.io.FileInputStream;
